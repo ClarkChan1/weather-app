@@ -1,0 +1,62 @@
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background-image: url('images/weather-icons.gif');
+  background-size: cover;
+  background-attachment: fixed;
+  transition: background-image 1s ease-in;
+  margin: 0;
+}
+
+/* to vertically center things, you need to make a wrapper as well as set the height and width of html, body, and the wrapper to 100%, extremeley convoluded, CSS ought to change this */
+.wrapper {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 30px;
+  height: 100%;
+  width: 100%;
+}
+
+.search-container {
+  display: flex;
+  border-radius: 10px;
+  gap: 10px;
+  padding: 10px;
+  background: rgb(59, 71, 88, .8);
+}
+
+.search-box {
+  border: none;
+  background: none;
+  outline: none;
+  color: white;
+  font-size: 24px;
+}
+
+.search-box::placeholder {
+  color: rgb(255, 255, 255, .8);
+}
+
+.search-button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+}
+
+.button-icon {
+  font-size: 28px;
+  color: white;
+}
+
+.info-container {
+  background: blue;
+  height: 200px;
+  width: 300px;
+}
