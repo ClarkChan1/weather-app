@@ -14,11 +14,12 @@ function createUI() {
   wrapper.classList.add('wrapper');
   // make the search bar
   const searchContainer = document.createElement('form');
+  searchContainer.action = "#";
   searchContainer.classList.add('search-container');
   // create the textbox
   searchBox = document.createElement('input');
   searchBox.type = "text";
-  searchBox.placeholder="enter a location";
+  searchBox.placeholder = "enter a location";
   searchBox.classList.add('search-box');
   // create the search button
   const searchButton = document.createElement('button');
@@ -41,7 +42,7 @@ function createUI() {
   searchContainer.addEventListener('submit', handleSearch);
 }
 
-function handleSearch(){
+function handleSearch() {
   // collect user input
   let userInput = searchBox.value.replace(' ', '-');
   let weatherInfo = getWeatherInfo(userInput);

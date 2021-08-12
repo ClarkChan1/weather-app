@@ -5,9 +5,11 @@ html, body {
 
 body {
   background-image: url('images/weather-icons.gif');
-  background-size: cover;
-  background-attachment: fixed;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
   transition: background-image 1s ease-in;
+  background-color: #272b33;
   margin: 0;
 }
 
