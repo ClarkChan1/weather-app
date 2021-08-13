@@ -2,7 +2,7 @@
 const apiKey = 'R9Qq7VsFNCTwQPuwia-NxaRJick-JSIXAcEucmmaWL4';
 
 async function getBackgroundImg(searchTerm) {
-  const img = await fetch(`https://api.unsplash.com/search/photos?query=${searchTerm}&per_page=10&client_id=${apiKey}`, {
+  const img = await fetch(`https://api.unsplash.com/search/photos?query=${searchTerm}&per_page=20&client_id=${apiKey}`, {
     mode: 'cors'
   });
   let imgArray = await img.json();
