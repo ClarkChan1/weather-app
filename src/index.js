@@ -42,14 +42,32 @@ function createUI() {
   searchContainer.addEventListener('submit', handleSearch);
 }
 
-function handleSearch() {
-  // collect user input
-  let userInput = searchBox.value.replace(' ', '-');
-  let weatherInfo = getWeatherInfo(userInput);
+async function handleSearch() {
+  // collect user input and change spaces to '+' because the openweathermap api separates search terms with a '+'
+  let userInput = searchBox.value.replace(' ', '+');
+  // clear the searchBox
+  searchBox.value = "";
+  let weatherInfo = await getWeatherInfo(userInput);
   // make the container that will display all the weather information
   const infoContainer = document.createElement('div');
   infoContainer.classList.add('info-container');
+  // make the contents of the info container
+  let locationName = document.createElement('p');
+  locationName.classList.add('location-name');
+  locationName.appendChild(document.createTextNode(weatherInfo.locationName));
+
+  // append all the info to infoContainer
+  infoContainer.appendChild(locationName);
+  // remove previous info container if it exists
+  if (wrapper.querySelector('.info-container') != null) {
+    wrapper.removeChild(wrapper.querySelector('.info-container'));
+  }
+  // append the new information container to the wrapper
+  wrapper.appendChild(infoContainer);
+  // change spaces to '-' because the unsplash api separates search terms with a '-'
+  userInput = userInput.replace('+', '-');
   // call background.js function to make api call to get the weather at that location
+  await getBackgroundImg(userInput);
 }
 
 createUI();
