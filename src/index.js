@@ -42,7 +42,9 @@ function createUI() {
   searchContainer.addEventListener('submit', handleSearch);
 }
 
-async function handleSearch() {
+async function handleSearch(e) {
+  e.preventDefault();
+
   // collect user input and change spaces to '+' because the openweathermap api separates search terms with a '+'
   let userInput = searchBox.value.replace(' ', '+');
   // clear the searchBox
