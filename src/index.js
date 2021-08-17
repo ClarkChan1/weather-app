@@ -30,11 +30,28 @@ function createUI() {
   buttonIcon.classList.add('fa-search');
   buttonIcon.classList.add('button-icon');
   searchButton.appendChild(buttonIcon);
+
+  // make error message
+  const errorContainer = document.createElement('div');
+  errorContainer.classList.add('error-container');
+  errorContainer.classList.add('hide-error-container');
+
+  const errorIcon = document.createElement('i');
+  errorIcon.classList.add('fa');
+  errorIcon.classList.add('fa-exclamation-triangle');
+  errorIcon.classList.add('error-icon');
+  const errorMessage = document.createElement('p');
+  errorMessage.appendChild(document.createTextNode('Could not find location!'));
+
+  errorContainer.appendChild(errorIcon);
+  errorContainer.appendChild(errorMessage);
+
+
   searchContainer.appendChild(searchBox);
   searchContainer.appendChild(searchButton);
-
   // add the search bar and the info container tot the wrapper
   wrapper.appendChild(searchContainer);
+  wrapper.appendChild(errorContainer);
   // add the wrapper to the body
   document.body.appendChild(wrapper);
 
@@ -100,13 +117,21 @@ async function handleSearch(e) {
   searchBox.value = "";
   let weatherInfo = await getWeatherInfo(userInput);
 
-  // make the body that will hold all the weather information and append it to the body so it displays on screen
-  makeBody(weatherInfo);
+  let errorMessage = wrapper.querySelector('.error-container');
+  if (weatherInfo != 'error') {
+    errorMessage.classList.add('hide-error-container');
+    // make the body that will hold all the weather information and append it to the body so it displays on screen
+    makeBody(weatherInfo);
 
-  // change spaces to '-' because the unsplash api separates search terms with a '-'
-  userInput = userInput.replace('+', '-');
-  // call background.js function to make api call to get the weather at that location
-  await getBackgroundImg(userInput);
+    // change spaces to '-' because the unsplash api separates search terms with a '-'
+    userInput = userInput.replace('+', '-');
+    // call background.js function to make api call to get the weather at that location
+    await getBackgroundImg(userInput);
+
+  } else {
+    // display error message
+    errorMessage.classList.remove('hide-error-container');
+  }
 }
 
 createUI();

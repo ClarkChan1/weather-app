@@ -3,6 +3,7 @@
 html, body {
   height: 100%;
   width: 100%;
+  font-family: 'Rubik', sans-serif;
 }
 
 body {
@@ -21,7 +22,6 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 30px;
   height: 100%;
   width: 100%;
 }
@@ -59,14 +59,40 @@ body {
   color: white;
 }
 
+.error-container {
+  background: rgb(255, 0, 0, .8);
+  color: white;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 24px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.hide-error-container {
+  display: none;
+}
+
+.error-container p {
+  margin: 0;
+}
+
+.error-icon {
+  font-size: 28px;
+  color: white;
+}
+
 .info-container {
-  font-family: 'Rubik', sans-serif;
   background: rgb(59, 71, 88, .8);
   color: white;
   display: flex;
   flex-direction: column;
+  gap: 10px;
   align-items: center;
   padding: 30px;
+  margin-top: 30px;
 }
 
 .info-container p {
@@ -85,6 +111,7 @@ body {
 
 .separator {
   font-size: 40px;
+  font-weight: lighter;
 }
 
 .temp-container {
