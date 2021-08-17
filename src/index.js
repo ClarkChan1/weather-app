@@ -34,25 +34,13 @@ function createUI() {
   buttonIcon.classList.add('button-icon');
   searchButton.appendChild(buttonIcon);
 
-  // make error message
-  const errorContainer = document.createElement('div');
-  errorContainer.classList.add('error-container');
-  errorContainer.classList.add('hide-error-container');
-
-  const errorIcon = document.createElement('i');
-  errorIcon.classList.add('fa');
-  errorIcon.classList.add('fa-exclamation-triangle');
-  errorIcon.classList.add('error-icon');
-  const errorMessage = document.createElement('p');
-  errorMessage.appendChild(document.createTextNode('Could not find location!'));
-  errorContainer.appendChild(errorIcon);
-  errorContainer.appendChild(errorMessage);
 
   searchContainer.appendChild(searchBox);
   searchContainer.appendChild(searchButton);
   // add the search bar and the info container tot the wrapper
   wrapper.appendChild(searchContainer);
-  wrapper.appendChild(errorContainer);
+  wrapper.appendChild(createErrorMsg('Could not find location!', 'rgb(255, 0, 0, .8)', 'searchError'));
+  wrapper.appendChild(createErrorMsg('Background image failed to load!', 'rgb(253, 106, 2,.8)', 'imageError'));
   // add the wrapper to the body
   document.body.appendChild(wrapper);
 
@@ -87,6 +75,25 @@ function changeUnits(fahrenheitContainer, celsiusContainer, tempContainer, weath
     tempContainer.querySelector('.highest-temp').innerHTML = weatherInfo.fahrenheitHighest;
     unit = 'F';
   }
+}
+
+function createErrorMsg(errorText, bgColor, errorID) {
+  // make error message
+  const errorContainer = document.createElement('div');
+  errorContainer.classList.add('error-container');
+  errorContainer.classList.add('hide-error-container');
+  errorContainer.style.background = bgColor;
+  errorContainer.id = errorID;
+
+  const errorIcon = document.createElement('i');
+  errorIcon.classList.add('fa');
+  errorIcon.classList.add('fa-exclamation-triangle');
+  errorIcon.classList.add('error-icon');
+  const errorMessage = document.createElement('p');
+  errorMessage.appendChild(document.createTextNode(errorText));
+  errorContainer.appendChild(errorIcon);
+  errorContainer.appendChild(errorMessage);
+  return errorContainer
 }
 
 function makeBody(weatherInfo) {
@@ -167,19 +174,26 @@ async function handleSearch(e) {
   searchBox.value = "";
   let weatherInfo = await getWeatherInfo(userInput);
 
-  let errorMessage = wrapper.querySelector('.error-container');
+  let searchError = wrapper.querySelector('#searchError');
   if (weatherInfo != 'error') {
-    errorMessage.classList.add('hide-error-container');
+    searchError.classList.add('hide-error-container');
     // make the body that will hold all the weather information and append it to the body so it displays on screen
     makeBody(weatherInfo);
 
     // change spaces to '-' because the unsplash api separates search terms with a '-'
     userInput = userInput.replace('+', '-');
     // call background.js function to make api call to get the weather at that location
-    await getBackgroundImg(userInput);
+    const status = await getBackgroundImg(userInput);
+    let imageError = wrapper.querySelector('#imageError');
+    if (status != 200) {
+      // put out an error
+      imageError.classList.remove('hide-error-container');
+    } else {
+      imageError.classList.add('hide-error-container');
+    }
   } else {
     // display error message
-    errorMessage.classList.remove('hide-error-container');
+    searchError.classList.remove('hide-error-container');
   }
 }
 
