@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
 
+:root {
+  --bg-color: rgb(59, 71, 88, .8);
+  /* --bg-color: rgb(0, 0, 0, .8); */
+}
+
 html, body {
   height: 100%;
   width: 100%;
@@ -31,7 +36,7 @@ body {
   border-radius: 10px;
   gap: 10px;
   padding: 10px;
-  background: rgb(59, 71, 88, .8);
+  background: var(--bg-color);
 }
 
 .search-box {
@@ -85,7 +90,7 @@ body {
 }
 
 .info-container {
-  background: rgb(59, 71, 88, .8);
+  background: var(--bg-color);
   color: white;
   display: flex;
   flex-direction: column;
@@ -102,7 +107,7 @@ body {
 .name-and-temp-container {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 40px;
 }
 
 .location-name {
@@ -118,14 +123,30 @@ body {
   display: flex;
   align-items: flex-end;
   gap: 20px;
+  width: 200px;
+  justify-content: center;
 }
 
 .current-temp {
   font-size: 40px;
 }
 
-.other-temps {
+.lowest-temp, .highest-temp {
   font-size: 24px;
+}
+
+.unit-switch-container {
+  font-size: 24px;
+}
+
+.temperature-container {
+  padding: 8px;
+  border: white 2px solid;
+}
+
+.selected-temp {
+  background: white;
+  color: var(--bg-color);
 }
 
 .description {

@@ -8,10 +8,13 @@ import getBackgroundImg from './background.js';
 
 let wrapper;
 let searchBox;
+let unit;
 
 function createUI() {
   wrapper = document.createElement('div');
   wrapper.classList.add('wrapper');
+  // set default unit to be fahrenheit
+  unit = 'F';
   // make the search bar
   const searchContainer = document.createElement('form');
   searchContainer.action = "#";
@@ -42,10 +45,8 @@ function createUI() {
   errorIcon.classList.add('error-icon');
   const errorMessage = document.createElement('p');
   errorMessage.appendChild(document.createTextNode('Could not find location!'));
-
   errorContainer.appendChild(errorIcon);
   errorContainer.appendChild(errorMessage);
-
 
   searchContainer.appendChild(searchBox);
   searchContainer.appendChild(searchButton);
@@ -59,6 +60,35 @@ function createUI() {
   searchContainer.addEventListener('submit', handleSearch);
 }
 
+function createseparator() {
+  let separator = document.createElement('p');
+  separator.appendChild(document.createTextNode('|'));
+  separator.classList.add('separator');
+  return separator;
+}
+
+function changeUnits(fahrenheitContainer, celsiusContainer, tempContainer, weatherInfo) {
+  if (unit == 'F') {
+    // change to C
+    fahrenheitContainer.classList.remove('selected-temp');
+    celsiusContainer.classList.add('selected-temp');
+    // change the actual temperatures
+    tempContainer.querySelector('.current-temp').innerHTML = weatherInfo.celsiusTemp;
+    tempContainer.querySelector('.lowest-temp').innerHTML = weatherInfo.celsiusLowest;
+    tempContainer.querySelector('.highest-temp').innerHTML = weatherInfo.celsiusHighest;
+    unit = 'C';
+  } else {
+    // change to F
+    fahrenheitContainer.classList.add('selected-temp');
+    celsiusContainer.classList.remove('selected-temp');
+    // change the actual temperatures
+    tempContainer.querySelector('.current-temp').innerHTML = weatherInfo.fahrenheitTemp;
+    tempContainer.querySelector('.lowest-temp').innerHTML = weatherInfo.fahrenheitLowest;
+    tempContainer.querySelector('.highest-temp').innerHTML = weatherInfo.fahrenheitHighest;
+    unit = 'F';
+  }
+}
+
 function makeBody(weatherInfo) {
   // make the container that will display all the weather information
   const infoContainer = document.createElement('div');
@@ -66,12 +96,11 @@ function makeBody(weatherInfo) {
   // make the contents of the info container
   let nameAndTempContainer = document.createElement('div');
   nameAndTempContainer.classList.add('name-and-temp-container');
+  // make location display
   let locationName = document.createElement('p');
   locationName.classList.add('location-name');
   locationName.appendChild(document.createTextNode(weatherInfo.locationName));
-  let separator = document.createElement('p');
-  separator.appendChild(document.createTextNode('|'));
-  separator.classList.add('separator');
+  // make temperature display
   let tempContainer = document.createElement('div');
   tempContainer.classList.add('temp-container');
   let currentTemp = document.createElement('p');
@@ -79,16 +108,37 @@ function makeBody(weatherInfo) {
   currentTemp.classList.add('current-temp');
   let lowestTemp = document.createElement('p');
   lowestTemp.appendChild(document.createTextNode(weatherInfo.fahrenheitLowest));
-  lowestTemp.classList.add('other-temps');
+  lowestTemp.classList.add('lowest-temp');
   let highestTemp = document.createElement('p');
   highestTemp.appendChild(document.createTextNode(weatherInfo.fahrenheitHighest));
-  highestTemp.classList.add('other-temps');
+  highestTemp.classList.add('highest-temp');
   tempContainer.appendChild(lowestTemp);
   tempContainer.appendChild(currentTemp);
   tempContainer.appendChild(highestTemp);
+  // make unit switcher
+  let unitSwitchContainer = document.createElement('div');
+  unitSwitchContainer.classList.add('unit-switch-container');
+  let fahrenheitContainer = document.createElement('div');
+  fahrenheitContainer.classList.add('temperature-container');
+  fahrenheitContainer.classList.add('selected-temp');
+  let celsiusContainer = document.createElement('div');
+  celsiusContainer.classList.add('temperature-container');
+  let fahrenheitSwitch = document.createElement('p');
+  fahrenheitSwitch.appendChild(document.createTextNode('F°'));
+  fahrenheitContainer.appendChild(fahrenheitSwitch);
+  let celsiusSwitch = document.createElement('p');
+  celsiusSwitch.appendChild(document.createTextNode('C°'));
+  celsiusContainer.appendChild(celsiusSwitch);
+  unitSwitchContainer.appendChild(fahrenheitContainer);
+  unitSwitchContainer.appendChild(celsiusContainer);
+  unitSwitchContainer.addEventListener('click', function() {
+    changeUnits(fahrenheitContainer, celsiusContainer, tempContainer, weatherInfo);
+  });
   nameAndTempContainer.appendChild(locationName);
-  nameAndTempContainer.appendChild(separator);
+  // nameAndTempContainer.appendChild(createseparator());
   nameAndTempContainer.appendChild(tempContainer);
+  // nameAndTempContainer.appendChild(createseparator());
+  nameAndTempContainer.appendChild(unitSwitchContainer);
 
   let lineBreak = document.createElement('hr');
   lineBreak.style.width = '100%';
@@ -127,7 +177,6 @@ async function handleSearch(e) {
     userInput = userInput.replace('+', '-');
     // call background.js function to make api call to get the weather at that location
     await getBackgroundImg(userInput);
-
   } else {
     // display error message
     errorMessage.classList.remove('hide-error-container');

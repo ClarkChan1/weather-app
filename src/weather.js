@@ -1,9 +1,8 @@
 // this module will handle making api calls to openweathermap and collecting information about the weather based on user input
 const apiKey = 'a5b3ededf9619011197f6c79cd9baadf';
+
 async function getWeatherInfo(location) {
   try {
-
-
     const info = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}`, {
       mode: 'cors'
     });
