@@ -22,7 +22,7 @@ function createUI() {
   // create the textbox
   searchBox = document.createElement('input');
   searchBox.type = "text";
-  searchBox.placeholder = "enter a location";
+  searchBox.placeholder = "enter a city, state, or country";
   searchBox.classList.add('search-box');
   // create the search button
   const searchButton = document.createElement('button');

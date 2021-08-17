@@ -45,6 +45,7 @@ body {
   outline: none;
   color: white;
   font-size: 24px;
+  width: 400px;
 }
 
 .search-box::placeholder {
@@ -137,6 +138,10 @@ body {
 
 .unit-switch-container {
   font-size: 24px;
+}
+
+.unit-switch-container:hover {
+  cursor: pointer;
 }
 
 .temperature-container {
